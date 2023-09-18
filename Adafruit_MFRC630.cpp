@@ -372,7 +372,7 @@ bool Adafruit_MFRC630::begin() {
   }
 
   /* If !1.8, there was a problem */
-  if ((ver != 0x1A) || (ver != 0x18)) {
+  if ((ver != 0x1A) && (ver != 0x18)) {
     DEBUG_TIMESTAMP();
     DEBUG_PRINTLN(F("FAILED!"));
     return false;
