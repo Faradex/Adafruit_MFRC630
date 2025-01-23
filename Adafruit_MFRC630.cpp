@@ -756,7 +756,7 @@ uint16_t Adafruit_MFRC630::iso14443aCommand(enum iso14443_cmd cmd) {
     DEBUG_TIMESTAMP();
     DEBUG_PRINTLN(F("ERROR: No RX flag set, transceive failed or timed out."));
     DEBUG_PRINT(F("MFRC630_REG_RX_CTRL: "));  
-    DEBUG_PRINTLN(read8(MFRC630_REG_RX_CTRL))
+    DEBUG_PRINTLN(read8(MFRC630_REG_RX_CTRL));
     /* Display the error message if ERROR IRQ is set. */
     if (irqval & MFRC630IRQ0_ERRIRQ) {
       uint8_t error = read8(MFRC630_REG_ERROR);
