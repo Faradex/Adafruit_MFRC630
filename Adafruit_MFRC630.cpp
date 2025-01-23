@@ -737,8 +737,8 @@ uint16_t Adafruit_MFRC630::iso14443aCommand(enum iso14443_cmd cmd) {
   DEBUG_PRINTLN(F("F. Waiting for a response or timeout."));
   uint8_t irqval = 0;
   while (!(irqval & MFRC630IRQ1_TIMER0IRQ)) {
-    DEBUG_PRINTLN(F("irqval : "));
-    DEBUG_PRINTLN(irqval);
+    //DEBUG_PRINTLN(F("irqval : "));
+    //DEBUG_PRINTLN(irqval);
     irqval = read8(MFRC630_REG_IRQ1);
     /* Check for a global interrrupt, which can only be ERR or RX. */
     if (irqval & MFRC630IRQ1_GLOBALIRQ) {
