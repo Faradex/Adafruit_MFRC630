@@ -736,8 +736,10 @@ uint16_t Adafruit_MFRC630::iso14443aCommand(enum iso14443_cmd cmd) {
   DEBUG_TIMESTAMP();
   DEBUG_PRINTLN(F("F. Waiting for a response or timeout."));
   uint8_t irqval = 0;
-  while (!(irqval & MFRC630IRQ1_TIMER0IRQ)) {
 
+  while (!(irqval & MFRC630IRQ1_TIMER0IRQ)) {
+    //DEBUG_PRINTLN(F("irqval : "));
+    //DEBUG_PRINTLN(irqval);
     irqval = read8(MFRC630_REG_IRQ1);
     /* Check for a global interrrupt, which can only be ERR or RX. */
     if (irqval & MFRC630IRQ1_GLOBALIRQ) {
@@ -753,6 +755,8 @@ uint16_t Adafruit_MFRC630::iso14443aCommand(enum iso14443_cmd cmd) {
   if ((!(irqval & MFRC630IRQ0_RXIRQ) || (irqval & MFRC630IRQ0_ERRIRQ))) {
     DEBUG_TIMESTAMP();
     DEBUG_PRINTLN(F("ERROR: No RX flag set, transceive failed or timed out."));
+    DEBUG_PRINT(F("MFRC630_REG_RX_CTRL: "));  
+    DEBUG_PRINTLN(read8(MFRC630_REG_RX_CTRL))
     /* Display the error message if ERROR IRQ is set. */
     if (irqval & MFRC630IRQ0_ERRIRQ) {
       uint8_t error = read8(MFRC630_REG_ERROR);
