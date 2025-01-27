@@ -736,16 +736,21 @@ uint16_t Adafruit_MFRC630::iso14443aCommand(enum iso14443_cmd cmd) {
   DEBUG_TIMESTAMP();
   DEBUG_PRINTLN(F("F. Waiting for a response or timeout."));
   uint8_t irqval = 0;
+  unsigned long startTime = millis();
+  const unsigned long timeout = 500; // 0.5 second timeout
 
   while (!(irqval & MFRC630IRQ1_TIMER0IRQ)) {
-    //DEBUG_PRINTLN(F("irqval : "));
-    //DEBUG_PRINTLN(irqval);
+    if (millis() - startTime >= timeout) {
+      DEBUG_PRINTLN(F("Loop timeout reached"));
+      break;
+    }
     irqval = read8(MFRC630_REG_IRQ1);
     /* Check for a global interrrupt, which can only be ERR or RX. */
     if (irqval & MFRC630IRQ1_GLOBALIRQ) {
       break;
     }
   }
+
 
   /* Cancel the current command (in case we timed out or error occurred). */
   writeCommand(MFRC630_CMD_IDLE);
